@@ -4,7 +4,12 @@ Insurance Platform is a full-stack web application for managing user profiles, p
 
 ## Team Members
 
-- Add team member names here
+Gurleen Kaur
+Rose Dhillon
+Adit Rakeshkumar Rana
+Kim Joson
+Thi Tieu Man Tran
+Li Zixin
 
 ## Tech Stack
 
