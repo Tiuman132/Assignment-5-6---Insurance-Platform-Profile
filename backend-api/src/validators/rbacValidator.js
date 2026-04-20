@@ -1,0 +1,6 @@
+import { body } from "express-validator";
+
+export const assignRolesValidator = [
+  body("roles").isArray({ min: 1 }).withMessage("roles must be a non-empty array"),
+  body("roles.*").isString().withMessage("Role names must be strings")
+];

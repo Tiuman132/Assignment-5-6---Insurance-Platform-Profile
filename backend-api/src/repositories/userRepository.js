@@ -1,0 +1,55 @@
+import { User } from "../models/User.js";
+
+export const userRepository = {
+  findByUsername(username) {
+    return User.findOne({ username }).populate("roles");
+  },
+
+  findByEmail(email) {
+    return User.findOne({
+      "profile.email": String(email).toLowerCase().trim()
+    }).populate("roles");
+  },
+
+  findById(id) {
+    return User.findById(id).populate("roles");
+  },
+
+  findAll() {
+    return User.find().populate("roles");
+  },
+
+  create(data) {
+    return User.create(data);
+  },
+
+  updateById(id, update) {
+    return User.findByIdAndUpdate(id, update, { new: true }).populate("roles");
+  },
+
+  async findActiveAdmins(excludeUserId = null) {
+    const filter = {
+      accountStatus: "ACTIVE"
+    };
+
+    if (excludeUserId) {
+      filter._id = { $ne: excludeUserId };
+    }
+
+    const users = await User.find(filter).populate({
+      path: "roles",
+      match: { name: "ADMIN" }
+    });
+
+    return users.filter((user) => user.roles.length > 0);
+  },
+
+  async findCustomers() {
+    return User.find()
+      .populate({
+        path: "roles",
+        match: { name: "CUSTOMER" }
+      })
+      .then((users) => users.filter((user) => user.roles.length > 0));
+  }
+};
